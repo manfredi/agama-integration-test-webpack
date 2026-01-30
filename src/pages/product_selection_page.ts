@@ -59,4 +59,18 @@ function LicenseAcceptable<TBase extends GConstructor<ProductSelectionPage>>(Bas
   };
 }
 
-export class ProductSelectionWithRegistrationPage extends LicenseAcceptable(ProductSelectionPage) {}
+function ModeSelectable<TBase extends GConstructor<ProductSelectionPage>>(Base: TBase) {
+  return class extends Base {
+    protected readonly productModeButton = (productMode: string) =>
+      this.page.locator(`::-p-aria([name="${productMode}"])`);
+
+    async selectMode(productMode: string) {
+      await this.productModeButton(productMode).click();
+    }
+  };
+}
+
+export class ProductSelectionWithLicensePage extends LicenseAcceptable(ProductSelectionPage) {}
+export class ProductSelectionWithLicenseAndModePage extends ModeSelectable(
+  LicenseAcceptable(ProductSelectionPage),
+) {}

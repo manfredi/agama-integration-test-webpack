@@ -407,11 +407,26 @@ exports.ensureLandingOnOverviewWithSidebar = ensureLandingOnOverviewWithSidebar;
 exports.productSelection = productSelection;
 exports.productSelectionWithSidebar = productSelectionWithSidebar;
 exports.productSelectionWithLicense = productSelectionWithLicense;
+exports.productSelectionWithLicenseAndMode = productSelectionWithLicenseAndMode;
 exports.productSelectionWithLicenseWithSidebar = productSelectionWithLicenseWithSidebar;
 const helpers_1 = __webpack_require__(/*! ../lib/helpers */ "./src/lib/helpers.ts");
 const overview_page_1 = __webpack_require__(/*! ../pages/overview_page */ "./src/pages/overview_page.ts");
 const overview_with_sidebar_page_1 = __webpack_require__(/*! ../pages/overview_with_sidebar_page */ "./src/pages/overview_with_sidebar_page.ts");
 const product_selection_page_1 = __webpack_require__(/*! ../pages/product_selection_page */ "./src/pages/product_selection_page.ts");
+function reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicensePage) {
+    (0, helpers_1.it)(`should allow to review its license`, async function () {
+        productSelectionWithLicensePage = new product_selection_page_1.ProductSelectionWithLicensePage(helpers_1.page);
+        await productSelectionWithLicensePage.openLicense();
+        await productSelectionWithLicensePage.verifyLicense();
+        await productSelectionWithLicensePage.closeLicense();
+    });
+    (0, helpers_1.it)(`should allow to accept its license`, async function () {
+        await productSelectionWithLicensePage.acceptProductLicense();
+    });
+    (0, helpers_1.it)(`should allow to accept selected product`, async function () {
+        await productSelectionWithLicensePage.select();
+    });
+}
 function ensureLandingOnOverview() {
     (0, helpers_1.it)("should display Overview", async function () {
         await new overview_page_1.OverviewPage(helpers_1.page).waitVisible(70000);
@@ -437,37 +452,39 @@ function productSelectionWithSidebar(productId) {
     });
 }
 function productSelectionWithLicense(productId) {
+    let productSelectionWithLicensePage;
     (0, helpers_1.it)(`should allow to choose product ${productId}`, async function () {
-        await new product_selection_page_1.ProductSelectionWithRegistrationPage(helpers_1.page).choose(productId);
+        productSelectionWithLicensePage = new product_selection_page_1.ProductSelectionWithLicensePage(helpers_1.page);
+        await productSelectionWithLicensePage.choose(productId);
     });
-    (0, helpers_1.it)(`should allow to review its license`, async function () {
-        const productSelectionWithRegistrationPage = new product_selection_page_1.ProductSelectionWithRegistrationPage(helpers_1.page);
-        await productSelectionWithRegistrationPage.openLicense();
-        await productSelectionWithRegistrationPage.verifyLicense();
-        await productSelectionWithRegistrationPage.closeLicense();
+    reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicensePage);
+}
+function productSelectionWithLicenseAndMode(productId, productMode) {
+    let productSelectionWithLicenseAndModePage;
+    (0, helpers_1.it)(`should allow to choose product ${productId}`, async function () {
+        productSelectionWithLicenseAndModePage = new product_selection_page_1.ProductSelectionWithLicenseAndModePage(helpers_1.page);
+        await productSelectionWithLicenseAndModePage.choose(productId);
     });
-    (0, helpers_1.it)(`should allow to accept its license`, async function () {
-        await new product_selection_page_1.ProductSelectionWithRegistrationPage(helpers_1.page).acceptProductLicense();
+    (0, helpers_1.it)(`should allow to select mode ${productMode}`, async function () {
+        await productSelectionWithLicenseAndModePage.selectMode(productMode);
     });
-    (0, helpers_1.it)(`should allow to select product`, async function () {
-        await new product_selection_page_1.ProductSelectionWithRegistrationPage(helpers_1.page).select();
-    });
+    reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicenseAndModePage);
 }
 function productSelectionWithLicenseWithSidebar(productId) {
     (0, helpers_1.it)(`should allow to choose product ${productId}`, async function () {
-        await new product_selection_page_1.ProductSelectionWithRegistrationPage(helpers_1.page).choose(productId);
+        await new product_selection_page_1.ProductSelectionWithLicensePage(helpers_1.page).choose(productId);
     });
     (0, helpers_1.it)(`should allow to review its license`, async function () {
-        const productSelectionWithRegistrationPage = new product_selection_page_1.ProductSelectionWithRegistrationPage(helpers_1.page);
-        await productSelectionWithRegistrationPage.openLicense();
-        await productSelectionWithRegistrationPage.verifyLicense();
-        await productSelectionWithRegistrationPage.closeLicense();
+        const productSelectionWithLicensePage = new product_selection_page_1.ProductSelectionWithLicensePage(helpers_1.page);
+        await productSelectionWithLicensePage.openLicense();
+        await productSelectionWithLicensePage.verifyLicense();
+        await productSelectionWithLicensePage.closeLicense();
     });
     (0, helpers_1.it)(`should allow to accept its license`, async function () {
-        await new product_selection_page_1.ProductSelectionWithRegistrationPage(helpers_1.page).acceptProductLicense();
+        await new product_selection_page_1.ProductSelectionWithLicensePage(helpers_1.page).acceptProductLicense();
     });
     (0, helpers_1.it)(`should allow to select product`, async function () {
-        await new product_selection_page_1.ProductSelectionWithRegistrationPage(helpers_1.page).select();
+        await new product_selection_page_1.ProductSelectionWithLicensePage(helpers_1.page).select();
     });
 }
 
@@ -1222,7 +1239,8 @@ function parse(callback) {
         .description("Run a simple Agama integration test")
         .option("-u, --url <url>", "Agama server URL", "http://localhost")
         .option("-p, --password <password>", "Agama login password", "linux")
-        .option("-a, --agama-version <version>", "Agama package version")
+        .option("-a, --agama-version <version>", "Agama image version")
+        .option("-g, --agama-package-version <version>", "Agama package version")
         .option("-v, --product-version <version>", "Product version")
         .addOption(new commander_1.Option("-b, --browser <browser>", "Browser used for running the test")
         .choices(["firefox", "chrome", "chromium"])
@@ -2318,7 +2336,7 @@ exports.CustomRegistrationPage = CustomRegistrationPage;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ProductSelectionWithRegistrationPage = exports.ProductSelectionPage = void 0;
+exports.ProductSelectionWithLicenseAndModePage = exports.ProductSelectionWithLicensePage = exports.ProductSelectionPage = void 0;
 class ProductSelectionPage {
     page;
     productText = (name) => this.page.locator(`::-p-text(${name})`);
@@ -2363,9 +2381,20 @@ function LicenseAcceptable(Base) {
         }
     };
 }
-class ProductSelectionWithRegistrationPage extends LicenseAcceptable(ProductSelectionPage) {
+function ModeSelectable(Base) {
+    return class extends Base {
+        productModeButton = (productMode) => this.page.locator(`::-p-aria([name="${productMode}"])`);
+        async selectMode(productMode) {
+            await this.productModeButton(productMode).click();
+        }
+    };
 }
-exports.ProductSelectionWithRegistrationPage = ProductSelectionWithRegistrationPage;
+class ProductSelectionWithLicensePage extends LicenseAcceptable(ProductSelectionPage) {
+}
+exports.ProductSelectionWithLicensePage = ProductSelectionWithLicensePage;
+class ProductSelectionWithLicenseAndModePage extends ModeSelectable(LicenseAcceptable(ProductSelectionPage)) {
+}
+exports.ProductSelectionWithLicenseAndModePage = ProductSelectionWithLicenseAndModePage;
 
 
 /***/ }),
@@ -2861,7 +2890,7 @@ const commander_1 = __webpack_require__(/*! commander */ "./node_modules/command
 const login_1 = __webpack_require__(/*! ./checks/login */ "./src/checks/login.ts");
 const product_strategy_factory_1 = __webpack_require__(/*! ./lib/product_strategy_factory */ "./src/lib/product_strategy_factory.ts");
 const options = (0, cmdline_1.parse)((cmd) => cmd
-    .option("--patterns <pattern>...", "comma-separated list of patterns", cmdline_1.commaSeparatedList)
+    .option("--patterns <pattern>...", "Comma-separated list of patterns", cmdline_1.commaSeparatedList)
     .option("--install", "Proceed to install the system (the default is not to install it)")
     .option("--btrfs-without-snapshots", "Change the file system to Btrfs without snapshots")
     .addOption(new commander_1.Option("--prepare-advanced-storage <storage-type>", "Prepare advance storage for installation").choices(["dasd", "zfcp"])));

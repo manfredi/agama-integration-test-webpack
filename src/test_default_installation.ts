@@ -5,20 +5,26 @@ import { ProductStrategyFactory } from "./lib/product_strategy_factory";
 
 import { logIn } from "./checks/login";
 import { prepareZfcpStorage } from "./checks/storage_zfcp";
+import { productSelectionWithLicenseAndMode } from "./checks/product_selection";
 
 const options = parse((cmd) =>
   cmd
     .option("--product-id <id>", "Product id to select a product to install", "none")
+    .addOption(
+      new Option("--product-mode <mode>", "Select product mode")
+        .choices(["Standard", "Immutable"])
+        .default("none", "Default value set to 'none' (No mode selected)"),
+    )
     .option(
       "--accept-license",
       "Accept license for a product with license (the default is a product without license)",
     )
     .option("--registration-code <code>", "Registration code")
     .option("--registration-code-ha <code>", "Registration code for Extension High Availability")
-    .option("--patterns <pattern>...", "comma-separated list of patterns", commaSeparatedList)
+    .option("--patterns <pattern>...", "Comma-separated list of patterns", commaSeparatedList)
     .option("--install", "Proceed to install the system (the default is not to install it)")
     .option("--use-custom-registration-server", "Enable custom registration server")
-    .option("--provide-registration-code", "provide registration code for customer registration")
+    .option("--provide-registration-code", "Provide registration code for customer registration")
     .addOption(
       new Option(
         "--prepare-advanced-storage <storage-type>",
@@ -34,7 +40,10 @@ const testStrategy = ProductStrategyFactory.create(options.productVersion, optio
 
 logIn(options.password);
 if (options.productId !== "none")
-  if (options.acceptLicense) testStrategy.productSelectionWithLicense(options.productId);
+  if (options.acceptLicense)
+    if (options.productMode !== "none")
+      productSelectionWithLicenseAndMode(options.productId, options.productMode);
+    else testStrategy.productSelectionWithLicense(options.productId);
   else testStrategy.productSelection(options.productId);
 testStrategy.ensureLandingOnOverview();
 if (options.registrationCode)

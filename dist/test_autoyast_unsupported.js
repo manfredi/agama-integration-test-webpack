@@ -170,7 +170,8 @@ function parse(callback) {
         .description("Run a simple Agama integration test")
         .option("-u, --url <url>", "Agama server URL", "http://localhost")
         .option("-p, --password <password>", "Agama login password", "linux")
-        .option("-a, --agama-version <version>", "Agama package version")
+        .option("-a, --agama-version <version>", "Agama image version")
+        .option("-g, --agama-package-version <version>", "Agama package version")
         .option("-v, --product-version <version>", "Product version")
         .addOption(new commander_1.Option("-b, --browser <browser>", "Browser used for running the test")
         .choices(["firefox", "chrome", "chromium"])
@@ -516,8 +517,8 @@ const helpers_1 = __webpack_require__(/*! ./lib/helpers */ "./src/lib/helpers.ts
 const autoyast_unsupported_1 = __webpack_require__(/*! ./checks/autoyast_unsupported */ "./src/checks/autoyast_unsupported.ts");
 const login_1 = __webpack_require__(/*! ./checks/login */ "./src/checks/login.ts");
 const options = (0, cmdline_1.parse)((cmd) => cmd
-    .option("--not-implemented <elements>", "comma-separated list of not implemented yet elements", cmdline_1.commaSeparatedList)
-    .option("--not-supported <elements>", "comma-separated list of not supported elements", cmdline_1.commaSeparatedList));
+    .option("--not-implemented <elements>", "Comma-separated list of not implemented yet elements", cmdline_1.commaSeparatedList)
+    .option("--not-supported <elements>", "Comma-separated list of not supported elements", cmdline_1.commaSeparatedList));
 (0, helpers_1.test_init)(options);
 (0, login_1.logIn)(options.password);
 if (options.notImplemented)

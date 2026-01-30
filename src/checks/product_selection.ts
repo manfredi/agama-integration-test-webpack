@@ -3,8 +3,24 @@ import { OverviewPage } from "../pages/overview_page";
 import { OverviewWithSidebarPage } from "../pages/overview_with_sidebar_page";
 import {
   ProductSelectionPage,
-  ProductSelectionWithRegistrationPage,
+  ProductSelectionWithLicenseAndModePage,
+  ProductSelectionWithLicensePage,
 } from "../pages/product_selection_page";
+
+function reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicensePage) {
+  it(`should allow to review its license`, async function () {
+    productSelectionWithLicensePage = new ProductSelectionWithLicensePage(page);
+    await productSelectionWithLicensePage.openLicense();
+    await productSelectionWithLicensePage.verifyLicense();
+    await productSelectionWithLicensePage.closeLicense();
+  });
+  it(`should allow to accept its license`, async function () {
+    await productSelectionWithLicensePage.acceptProductLicense();
+  });
+  it(`should allow to accept selected product`, async function () {
+    await productSelectionWithLicensePage.select();
+  });
+}
 
 export function ensureLandingOnOverview() {
   it(
@@ -43,37 +59,40 @@ export function productSelectionWithSidebar(productId: string) {
 }
 
 export function productSelectionWithLicense(productId: string) {
+  let productSelectionWithLicensePage: ProductSelectionWithLicensePage;
   it(`should allow to choose product ${productId}`, async function () {
-    await new ProductSelectionWithRegistrationPage(page).choose(productId);
+    productSelectionWithLicensePage = new ProductSelectionWithLicensePage(page);
+    await productSelectionWithLicensePage.choose(productId);
   });
-  it(`should allow to review its license`, async function () {
-    const productSelectionWithRegistrationPage = new ProductSelectionWithRegistrationPage(page);
-    await productSelectionWithRegistrationPage.openLicense();
-    await productSelectionWithRegistrationPage.verifyLicense();
-    await productSelectionWithRegistrationPage.closeLicense();
+  reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicensePage);
+}
+
+export function productSelectionWithLicenseAndMode(productId: string, productMode: string) {
+  let productSelectionWithLicenseAndModePage: ProductSelectionWithLicenseAndModePage;
+  it(`should allow to choose product ${productId}`, async function () {
+    productSelectionWithLicenseAndModePage = new ProductSelectionWithLicenseAndModePage(page);
+    await productSelectionWithLicenseAndModePage.choose(productId);
   });
-  it(`should allow to accept its license`, async function () {
-    await new ProductSelectionWithRegistrationPage(page).acceptProductLicense();
+  it(`should allow to select mode ${productMode}`, async function () {
+    await productSelectionWithLicenseAndModePage.selectMode(productMode);
   });
-  it(`should allow to select product`, async function () {
-    await new ProductSelectionWithRegistrationPage(page).select();
-  });
+  reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicenseAndModePage);
 }
 
 export function productSelectionWithLicenseWithSidebar(productId: string) {
   it(`should allow to choose product ${productId}`, async function () {
-    await new ProductSelectionWithRegistrationPage(page).choose(productId);
+    await new ProductSelectionWithLicensePage(page).choose(productId);
   });
   it(`should allow to review its license`, async function () {
-    const productSelectionWithRegistrationPage = new ProductSelectionWithRegistrationPage(page);
-    await productSelectionWithRegistrationPage.openLicense();
-    await productSelectionWithRegistrationPage.verifyLicense();
-    await productSelectionWithRegistrationPage.closeLicense();
+    const productSelectionWithLicensePage = new ProductSelectionWithLicensePage(page);
+    await productSelectionWithLicensePage.openLicense();
+    await productSelectionWithLicensePage.verifyLicense();
+    await productSelectionWithLicensePage.closeLicense();
   });
   it(`should allow to accept its license`, async function () {
-    await new ProductSelectionWithRegistrationPage(page).acceptProductLicense();
+    await new ProductSelectionWithLicensePage(page).acceptProductLicense();
   });
   it(`should allow to select product`, async function () {
-    await new ProductSelectionWithRegistrationPage(page).select();
+    await new ProductSelectionWithLicensePage(page).select();
   });
 }
