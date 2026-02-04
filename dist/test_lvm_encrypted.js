@@ -413,7 +413,15 @@ const helpers_1 = __webpack_require__(/*! ../lib/helpers */ "./src/lib/helpers.t
 const overview_page_1 = __webpack_require__(/*! ../pages/overview_page */ "./src/pages/overview_page.ts");
 const overview_with_sidebar_page_1 = __webpack_require__(/*! ../pages/overview_with_sidebar_page */ "./src/pages/overview_with_sidebar_page.ts");
 const product_selection_page_1 = __webpack_require__(/*! ../pages/product_selection_page */ "./src/pages/product_selection_page.ts");
-function reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicensePage) {
+function chooseProduct(productId) {
+    let productSelection;
+    (0, helpers_1.it)(`should allow to choose product ${productId}`, async function () {
+        productSelection = new product_selection_page_1.ProductSelectionPage(helpers_1.page);
+        await productSelection.choose(productId);
+    });
+}
+function reviewAndAcceptlicenseAndAcceptProduct() {
+    let productSelectionWithLicensePage;
     (0, helpers_1.it)(`should allow to review its license`, async function () {
         productSelectionWithLicensePage = new product_selection_page_1.ProductSelectionWithLicensePage(helpers_1.page);
         await productSelectionWithLicensePage.openLicense();
@@ -452,23 +460,17 @@ function productSelectionWithSidebar(productId) {
     });
 }
 function productSelectionWithLicense(productId) {
-    let productSelectionWithLicensePage;
-    (0, helpers_1.it)(`should allow to choose product ${productId}`, async function () {
-        productSelectionWithLicensePage = new product_selection_page_1.ProductSelectionWithLicensePage(helpers_1.page);
-        await productSelectionWithLicensePage.choose(productId);
-    });
-    reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicensePage);
+    chooseProduct(productId);
+    reviewAndAcceptlicenseAndAcceptProduct();
 }
 function productSelectionWithLicenseAndMode(productId, productMode) {
     let productSelectionWithLicenseAndModePage;
-    (0, helpers_1.it)(`should allow to choose product ${productId}`, async function () {
-        productSelectionWithLicenseAndModePage = new product_selection_page_1.ProductSelectionWithLicenseAndModePage(helpers_1.page);
-        await productSelectionWithLicenseAndModePage.choose(productId);
-    });
+    chooseProduct(productId);
     (0, helpers_1.it)(`should allow to select mode ${productMode}`, async function () {
+        productSelectionWithLicenseAndModePage = new product_selection_page_1.ProductSelectionWithLicenseAndModePage(helpers_1.page);
         await productSelectionWithLicenseAndModePage.selectMode(productMode);
     });
-    reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicenseAndModePage);
+    reviewAndAcceptlicenseAndAcceptProduct();
 }
 function productSelectionWithLicenseWithSidebar(productId) {
     (0, helpers_1.it)(`should allow to choose product ${productId}`, async function () {

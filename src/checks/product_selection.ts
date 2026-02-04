@@ -7,7 +7,16 @@ import {
   ProductSelectionWithLicensePage,
 } from "../pages/product_selection_page";
 
-function reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicensePage) {
+function chooseProduct(productId: string) {
+  let productSelection;
+  it(`should allow to choose product ${productId}`, async function () {
+    productSelection = new ProductSelectionPage(page);
+    await productSelection.choose(productId);
+  });
+}
+
+function reviewAndAcceptlicenseAndAcceptProduct() {
+  let productSelectionWithLicensePage;
   it(`should allow to review its license`, async function () {
     productSelectionWithLicensePage = new ProductSelectionWithLicensePage(page);
     await productSelectionWithLicensePage.openLicense();
@@ -59,24 +68,19 @@ export function productSelectionWithSidebar(productId: string) {
 }
 
 export function productSelectionWithLicense(productId: string) {
-  let productSelectionWithLicensePage: ProductSelectionWithLicensePage;
-  it(`should allow to choose product ${productId}`, async function () {
-    productSelectionWithLicensePage = new ProductSelectionWithLicensePage(page);
-    await productSelectionWithLicensePage.choose(productId);
-  });
-  reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicensePage);
+  chooseProduct(productId);
+  reviewAndAcceptlicenseAndAcceptProduct();
 }
 
 export function productSelectionWithLicenseAndMode(productId: string, productMode: string) {
   let productSelectionWithLicenseAndModePage: ProductSelectionWithLicenseAndModePage;
-  it(`should allow to choose product ${productId}`, async function () {
-    productSelectionWithLicenseAndModePage = new ProductSelectionWithLicenseAndModePage(page);
-    await productSelectionWithLicenseAndModePage.choose(productId);
-  });
+
+  chooseProduct(productId);
   it(`should allow to select mode ${productMode}`, async function () {
+    productSelectionWithLicenseAndModePage = new ProductSelectionWithLicenseAndModePage(page);
     await productSelectionWithLicenseAndModePage.selectMode(productMode);
   });
-  reviewAndAcceptlicenseAndAcceptProduct(productSelectionWithLicenseAndModePage);
+  reviewAndAcceptlicenseAndAcceptProduct();
 }
 
 export function productSelectionWithLicenseWithSidebar(productId: string) {
