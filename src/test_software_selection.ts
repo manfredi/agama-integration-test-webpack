@@ -7,7 +7,7 @@ import { ProductStrategyFactory } from "./lib/product_strategy_factory";
 
 const options = parse((cmd) =>
   cmd
-    .option("--patterns <pattern>...", "comma-separated list of patterns", commaSeparatedList)
+    .option("--patterns <pattern>...", "Comma-separated list of patterns", commaSeparatedList)
     .option("--install", "Proceed to install the system (the default is not to install it)")
     .option("--btrfs-without-snapshots", "Change the file system to Btrfs without snapshots")
     .addOption(

@@ -8,12 +8,12 @@ const options = parse((cmd) =>
   cmd
     .option(
       "--not-implemented <elements>",
-      "comma-separated list of not implemented yet elements",
+      "Comma-separated list of not implemented yet elements",
       commaSeparatedList,
     )
     .option(
       "--not-supported <elements>",
-      "comma-separated list of not supported elements",
+      "Comma-separated list of not supported elements",
       commaSeparatedList,
     ),
 );

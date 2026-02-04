@@ -8,7 +8,7 @@ import { verifyStorageOutOfSync } from "./checks/storage_out_of_sync";
 const options = parse((cmd) =>
   cmd
     .option("--register-package-hub", "Registration for PackageHub")
-    .option("--patterns <pattern>...", "comma-separated list of patterns", commaSeparatedList),
+    .option("--patterns <pattern>...", "Comma-separated list of patterns", commaSeparatedList),
 );
 
 test_init(options);
