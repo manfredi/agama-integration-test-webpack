@@ -4,33 +4,30 @@ import { RegistrationOptions } from "../checks/registration";
 
 export interface IProductTestStrategy {
   setPermanentHostname(hostname: string): void;
-  verifyRegistrationWarniningAlerts(use_custom?: string, url?: string);
-  enterProductRegistration({use_custom, code, provide_code, url}: RegistrationOptions): void;
-  enableEncryption(password: string);
-  verifyEncryptionEnabled();
-  disableEncryption();
-  enterExtensionRegistrationHA(code: string);
-  enterExtensionRegistrationPHub();
-  createFirstUser(password: string);
-  editRootUser(password: string);
-  performInstallation();
-  logInWithIncorrectPassword();
-  finishInstallation();
-  changeDiskToInstallTheSystem();
-  verifyPasswordStrength();
-  prepareZfcpStorage();
-  prepareDasdStorage();
-  selectPatterns(patterns: string[]);
-  changeFileSystemToBtrfsWithoutSnapshotsAndAdjustToMinSize();
-  productSelectionWithLicense(productId: string);
-  productSelection(productId: string);
-  selectMoreDevices();
-  setOnlyInstallationNetwork();
-  verifyDecryptDestructiveActions(destructiveActions: string[]);
-  ensureLandingOnOverview();
+  verifyRegistrationWarniningAlerts(use_custom?: string, url?: string): void;
+  enterProductRegistration({ use_custom, code, provide_code, url }: RegistrationOptions): void;
+  enableEncryption(password: string): void;
+  verifyEncryptionEnabled(): void;
+  disableEncryption(): void;
+  enterExtensionRegistrationHA(code: string): void;
+  enterExtensionRegistrationPHub(): void;
+  createFirstUser(password: string): void;
+  editRootUser(password: string): void;
+  performInstallation(): void;
+  logInWithIncorrectPassword(): void;
+  finishInstallation(): void;
+  changeDiskToInstallTheSystem(): void;
+  verifyPasswordStrength(): void;
+  prepareZfcpStorage(): void;
+  prepareDasdStorage(): void;
+  selectPatterns(patterns: string[]): void;
+  changeFileSystemToBtrfsWithoutSnapshotsAndAdjustToMinSize(): void;
+  selectMoreDevices(): void;
+  setOnlyInstallationNetwork(): void;
+  verifyDecryptDestructiveActions(destructiveActions: string[]): void;
+  ensureLandingOnOverview(): void;
 }
 
-// ts-prune-ignore-next
 export class ProductStrategyFactory {
   public static create(productVersion: string, agamaVersion: string): IProductTestStrategy {
     if (productVersion === "16.1" && agamaVersion.includes("19")) {
