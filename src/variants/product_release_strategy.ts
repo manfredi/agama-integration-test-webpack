@@ -17,11 +17,7 @@ import { prepareDasdStorage } from "../checks/storage_dasd";
 import { selectPatterns } from "../checks/software_selection";
 import { changeFileSystemToBtrfsWithoutSnapshotsAndAdjustToMinSize } from "../checks/storage_change_root_partition";
 import { prepareZfcpStorage } from "../checks/storage_zfcp";
-import {
-  ensureLandingOnOverview,
-  productSelection,
-  productSelectionWithLicense,
-} from "../checks/product_selection";
+import { ensureLandingOnOverview } from "../checks/overview";
 import { selectMoreDevices } from "../checks/storage_select_installation_device";
 import { setOnlyInstallationNetwork } from "../checks/network";
 import { verifyDecryptDestructiveActions } from "../checks/storage_result_destructive_actions_planned";
@@ -101,14 +97,6 @@ export class ProductReleaseStrategy implements IProductTestStrategy {
 
   changeFileSystemToBtrfsWithoutSnapshotsAndAdjustToMinSize() {
     changeFileSystemToBtrfsWithoutSnapshotsAndAdjustToMinSize();
-  }
-
-  productSelection(productId: string) {
-    productSelection(productId);
-  }
-
-  productSelectionWithLicense(productId: string) {
-    productSelectionWithLicense(productId);
   }
 
   selectMoreDevices() {

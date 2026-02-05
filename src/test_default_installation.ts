@@ -5,7 +5,7 @@ import { ProductStrategyFactory } from "./lib/product_strategy_factory";
 
 import { logIn } from "./checks/login";
 import { prepareZfcpStorage } from "./checks/storage_zfcp";
-import { productSelectionWithLicenseAndMode } from "./checks/product_selection";
+import { productSelection, productSelectionWithLicenseAndMode } from "./checks/product_selection";
 
 const options = parse((cmd) =>
   cmd
@@ -41,10 +41,8 @@ const testStrategy = ProductStrategyFactory.create(options.productVersion, optio
 logIn(options.password);
 if (options.productId !== "none")
   if (options.acceptLicense)
-    if (options.productMode !== "none")
-      productSelectionWithLicenseAndMode(options.productId, options.productMode);
-    else testStrategy.productSelectionWithLicense(options.productId);
-  else testStrategy.productSelection(options.productId);
+    productSelectionWithLicenseAndMode(options.productId, options.productMode);
+  else productSelection(options.productId);
 testStrategy.ensureLandingOnOverview();
 if (options.registrationCode)
   testStrategy.enterProductRegistration({
