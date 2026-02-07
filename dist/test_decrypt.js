@@ -2079,7 +2079,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InstallationCompletePage = void 0;
 class InstallationCompletePage {
     page;
-    installationCompleteText = () => this.page.locator("::-p-aria('Installation complete')");
+    installationCompleteText = () => this.page.locator("::-p-text('Installation complete')");
     constructor(page) {
         this.page = page;
     }
