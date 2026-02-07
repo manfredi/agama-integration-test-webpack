@@ -3,7 +3,7 @@ import { type Page } from "puppeteer-core";
 export class InstallationCompletePage {
   private readonly page: Page;
   private readonly installationCompleteText = () =>
-    this.page.locator("::-p-aria('Installation complete')");
+    this.page.locator("::-p-text('Installation complete')");
 
   constructor(page: Page) {
     this.page = page;
