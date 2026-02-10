@@ -2136,7 +2136,7 @@ class OverviewPage {
     storageLink = () => this.page.locator("a[href='#/storage']");
     softwareLink = () => this.page.locator("a[href='#/software']");
     usersLink = () => this.page.locator("a[href='#/users']");
-    installButton = () => this.page.locator('::-p-aria([name="Install now"][role="button"])');
+    installButton = () => this.page.locator("button::-p-text(Install now)");
     overviewHeading = () => this.page.locator('::-p-aria([name="System Information"][role="heading"])');
     constructor(page) {
         this.page = page;
